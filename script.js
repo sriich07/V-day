@@ -57,19 +57,30 @@ function onYouTubeIframeAPIReady() {
       modestbranding: 1,
       playsinline: 1,
       rel: 0,
-      showinfo: 0
+      showinfo: 0,
+      start: 13
     },
     events: {
-      onReady: onPlayerReady
+      onReady: onPlayerReady,
+      onStateChange: onPlayerStateChange
     }
   })
 }
+
+const START_TIME = 13
 
 function onPlayerReady(event) {
   // Start muted; unmute on first user click (browser policy)
   event.target.mute()
   event.target.playVideo()
   document.addEventListener('click', unmuteOnFirstClick, { once: true })
+}
+
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.ENDED) {
+    event.target.seekTo(START_TIME)
+    event.target.playVideo()
+  }
 }
 
 function unmuteOnFirstClick() {
