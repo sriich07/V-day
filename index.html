@@ -12,21 +12,21 @@
     <div class="hearts-bg" aria-hidden="true"></div>
     <div class="hearts-float" id="hearts-float" aria-hidden="true"></div>
 
-    <div class="container">
-        <h1>Will you be my Valentine? <span class="heart-accent">💕</span></h1>
+    <div class="container" id="main-container">
+        <h1 class="page-enter">Will you be my Valentine? <span class="heart-accent">💕</span></h1>
 
-        <div class="gif-container">
+        <div class="gif-container page-enter">
             <img id="cat-gif" src="https://media.tenor.com/EBV7OT7ACfwAAAAj/u-u-qua-qua-u-quaa.gif" alt="cute character">
         </div>
 
-        <div class="buttons">
+        <div class="buttons page-enter">
             <div class="yes-wrap">
                 <button id="yes-btn" onclick="handleYesClick()">Yes! 💖</button>
                 <p class="yes-hint">(The correct answer is Yes. Just saying.)</p>
             </div>
             <button id="no-btn" onclick="handleNoClick()">No</button>
         </div>
-        <div id="tease-toast"></div>
+        <div id="tease-toast" aria-live="polite"></div>
     </div>
 
     <!-- Hidden YouTube player for background music -->

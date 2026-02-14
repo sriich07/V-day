@@ -17,17 +17,17 @@ const noMessages = [
   "Babe please... my heart is fragile 🥺",
   "If you say no I'll write sad poetry about you...",
   "I'm gonna need a minute... and maybe ice cream 😢",
-  "Please??? My ego can't take it 💔",
+  "Please??? My little heart can't take it 💔",
   "Don't do me like this...",
   "Last chance! I'm too cute to refuse 😭",
   "You can't catch me anyway 😜"
 ]
 
 const yesTeasePokes = [
-  "Pssst... try No first. I promise it's funny 😏",
-  "Go on, hit No... just for the plot 👀",
-  "You're missing the runaway button. Just saying 😈",
-  "Click No. I dare you. (Yes is still the right answer) 😏"
+  "Hey you! Try clicking No first... it's worth it, promise 💕",
+  "No is the secret button. Go on, give it a tap! ✨",
+  "Pssst... the No button does something silly. You'll see 😊",
+  "Yes is the best answer, but No is the fun one first! 💖"
 ]
 
 let yesTeasedCount = 0
@@ -135,9 +135,9 @@ function handleYesClick() {
 function showTeaseMessage(msg) {
   const toast = document.getElementById('tease-toast')
   toast.textContent = msg
-  toast.classList.add('show')
+  toast.classList.add('show', 'tease-toast-moving')
   clearTimeout(toast._timer)
-  toast._timer = setTimeout(() => toast.classList.remove('show'), 2500)
+  // Keep message visible and moving until they click Yes (navigate away)
 }
 
 function handleNoClick() {
@@ -154,7 +154,7 @@ function handleNoClick() {
 
   if (noClickCount >= 2) {
     const noSize = parseFloat(window.getComputedStyle(noBtn).fontSize)
-    noBtn.style.fontSize = `${Math.max(noSize * 0.85, 10)}px`
+    noBtn.style.fontSize = `${Math.max(noSize * 0.88, 14)}px`
   }
 
   const gifIndex = Math.min(noClickCount, gifStages.length - 1)
@@ -175,12 +175,30 @@ function swapGif(src) {
 }
 
 function enableRunaway() {
+  noBtn.style.position = 'fixed'
+  noBtn.style.zIndex = '50'
+  runAway()
+
   noBtn.addEventListener('mouseover', runAway)
   noBtn.addEventListener('touchstart', runAway, { passive: true })
+
+  // Run away when cursor gets close (before hover) so it keeps moving until they hit Yes
+  document.addEventListener('mousemove', runAwayIfClose)
+}
+
+const RUNAWAY_DISTANCE = 120
+
+function runAwayIfClose(e) {
+  if (!runawayEnabled) return
+  const rect = noBtn.getBoundingClientRect()
+  const cx = rect.left + rect.width / 2
+  const cy = rect.top + rect.height / 2
+  const dist = Math.hypot(e.clientX - cx, e.clientY - cy)
+  if (dist < RUNAWAY_DISTANCE) runAway()
 }
 
 function runAway() {
-  const margin = 20
+  const margin = 24
   const btnW = noBtn.offsetWidth
   const btnH = noBtn.offsetHeight
   const maxX = window.innerWidth - btnW - margin
@@ -189,10 +207,14 @@ function runAway() {
   const randomX = Math.random() * maxX + margin / 2
   const randomY = Math.random() * maxY + margin / 2
 
-  noBtn.style.position = 'fixed'
   noBtn.style.left = `${randomX}px`
   noBtn.style.top = `${randomY}px`
-  noBtn.style.zIndex = '50'
 }
 
 spawnHearts()
+
+// Initial page entrance animation
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('main-container')
+  if (container) requestAnimationFrame(() => container.classList.add('loaded'))
+})
