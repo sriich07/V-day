@@ -69,6 +69,17 @@ After a minute or two, your site will be live at:
 - **Quick:** In Terminal run: `open https://YOUR_USERNAME.github.io/v-day/` (macOS).
 - Or copy the URL and paste it into your browser.
 
+### Fixing push errors
+
+| Error | Fix |
+|-------|-----|
+| **Support for password authentication was removed** | Use a [Personal Access Token](https://github.com/settings/tokens) as the password when Git asks. Create token with `repo` scope. |
+| **Updates were rejected** / **non-fast-forward** | Run `git pull origin main` (or `git pull --rebase origin main`), then `git push origin main` again. |
+| **Could not resolve host 'github.com'** | Check internet; try again. If on VPN/corporate network, it may block Git. |
+| **Permission denied** / **Authentication failed** | Wrong username or token; use GitHub username and PAT (not account password). |
+
+**Quick push (this repo):** From the project folder run `bash push.sh` — it sets the remote and pushes to `sriich07/V-day`.
+
 ---
 
 ## Project structure
